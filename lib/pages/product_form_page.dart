@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:shop_flutter/models/product.dart';
 
 class ProductFormPage extends StatefulWidget {
   const ProductFormPage({super.key});
@@ -8,11 +11,137 @@ class ProductFormPage extends StatefulWidget {
 }
 
 class _ProductFormPageState extends State<ProductFormPage> {
+  final priceFocus = FocusNode();
+  final descriptionFocus = FocusNode();
+
+  final imageUrlFocus = FocusNode();
+  final imageUrlController = TextEditingController();
+
+  final formKey = GlobalKey<FormState>();
+  // ignore: prefer_collection_literals
+  final formData = Map<String, Object>();
+
+  void updateImage() {
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    imageUrlFocus.addListener(updateImage);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    priceFocus.dispose();
+    descriptionFocus.dispose();
+
+    imageUrlFocus.removeListener(updateImage);
+    imageUrlFocus.dispose();
+  }
+
+  void submitForm() {
+    formKey.currentState?.save();
+    final newProduct = Product(
+      id: Random().nextDouble().toString(),
+      name: formData['name'] as String,
+      description: formData['description'] as String,
+      price: formData['price'] as double,
+      imageUrl: formData['imageUrl'] as String,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Formulário de Produto'),
+        actions: [
+          IconButton(
+            onPressed: submitForm,
+            icon: const Icon(Icons.save),
+          )
+        ],
+      ),
+      body: Form(
+        key: formKey,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: ListView(
+            children: [
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Nome'),
+                textInputAction: TextInputAction.next,
+                onFieldSubmitted: (_) {
+                  FocusScope.of(context).requestFocus(priceFocus);
+                },
+                onSaved: (name) => formData['name'] = name ?? '',
+              ),
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Preço'),
+                textInputAction: TextInputAction.next,
+                focusNode: priceFocus,
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
+                onFieldSubmitted: (_) {
+                  FocusScope.of(context).requestFocus(descriptionFocus);
+                },
+                onSaved: (price) =>
+                    formData['price'] = double.parse(price ?? '0'),
+              ),
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Descrição'),
+                textInputAction: TextInputAction.next,
+                focusNode: descriptionFocus,
+                keyboardType: TextInputType.multiline,
+                maxLines: 3,
+                onSaved: (description) =>
+                    formData['description'] = description ?? '',
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      decoration:
+                          const InputDecoration(labelText: 'Url da Imagem'),
+                      focusNode: imageUrlFocus,
+                      keyboardType: TextInputType.url,
+                      textInputAction: TextInputAction.done,
+                      controller: imageUrlController,
+                      onFieldSubmitted: (_) => submitForm(),
+                      onSaved: (imageUrl) =>
+                          formData['imageUrl'] = imageUrl ?? '',
+                    ),
+                  ),
+                  Container(
+                    height: 100,
+                    width: 100,
+                    margin: const EdgeInsets.only(
+                      top: 10,
+                      left: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey,
+                        width: 1,
+                      ),
+                    ),
+                    alignment: Alignment.center,
+                    child: imageUrlController.text.isEmpty
+                        ? const Text('Informe a Url')
+                        : FittedBox(
+                            fit: BoxFit.cover,
+                            child: Image.network(imageUrlController.text),
+                          ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
