@@ -12,13 +12,15 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 4),
       leading: CircleAvatar(
         backgroundImage: NetworkImage(product.imageUrl),
       ),
       title: Text(product.name),
       trailing: SizedBox(
-        width: 100,
+        width: 80,
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             IconButton(
               color: Theme.of(context).colorScheme.primary,
