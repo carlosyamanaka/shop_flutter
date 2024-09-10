@@ -29,10 +29,10 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
+        centerTitle: true,
         title: const Text(
           'Minha loja',
         ),
-        centerTitle: true,
         actions: [
           PopupMenuButton(
             icon: const Icon(Icons.more_vert),

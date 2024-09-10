@@ -94,6 +94,9 @@ class _ProductFormPageState extends State<ProductFormPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Colors.white,
+        centerTitle: true,
         title: const Text('Formulário de Produto'),
         actions: [
           IconButton(

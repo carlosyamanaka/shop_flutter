@@ -12,6 +12,9 @@ class OrdersPage extends StatelessWidget {
     final OrderList orders = Provider.of(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Colors.white,
+        centerTitle: true,
         title: const Text('Meus Pedidos'),
       ),
       drawer: const AppDrawer(),
