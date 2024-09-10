@@ -34,6 +34,10 @@ class _ProductFormPageState extends State<ProductFormPage> {
         url.toLowerCase().endsWith('.jpg') ||
         url.toLowerCase().endsWith('.jpeg');
 
+    if (url.toLowerCase().startsWith('data')) {
+      isValidUrl = true;
+      endsWithFile = true;
+    }
     return isValidUrl && endsWithFile;
   }
 
@@ -73,7 +77,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
     imageUrlFocus.dispose();
   }
 
-  void submitForm() {
+  Future<void> submitForm() async {
     formKey.currentState?.save();
 
     final isValid = formKey.currentState?.validate() ?? false;
@@ -87,12 +91,16 @@ class _ProductFormPageState extends State<ProductFormPage> {
     setState(() {
       _isLoading = true;
     });
-
-    Provider.of<ProductList>(
-      context,
-      listen: false,
-    ).saveProduct(formData).catchError((error) {
-      return showDialog(
+    try {
+      await Provider.of<ProductList>(
+        context,
+        listen: false,
+      ).saveProduct(formData);
+      if (!mounted) return;
+      Navigator.of(context).pop();
+    } catch (error) {
+      await showDialog(
+        // ignore: use_build_context_synchronously
         context: context,
         builder: (ctx) => AlertDialog(
           title: const Text('Ocorreu um erro!'),
@@ -100,17 +108,16 @@ class _ProductFormPageState extends State<ProductFormPage> {
           actions: [
             TextButton(
               child: const Text('Ok'),
-              onPressed: () => Navigator.of(context).pop,
+              onPressed: () => Navigator.of(context).pop(),
             ),
           ],
         ),
       );
-    }).then((value) {
+    } finally {
       setState(() {
         _isLoading = false;
       });
-      Navigator.of(context).pop();
-    });
+    }
   }
 
   @override
