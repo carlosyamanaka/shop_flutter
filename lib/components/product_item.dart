@@ -57,6 +57,7 @@ class ProductItem extends StatelessWidget {
                 ).then((value) {
                   if (value) {
                     Provider.of<ProductList>(
+                      // ignore: use_build_context_synchronously
                       context,
                       listen: false,
                     ).removeProduct(product);

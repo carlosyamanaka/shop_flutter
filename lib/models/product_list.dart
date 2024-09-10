@@ -1,10 +1,14 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:shop_flutter/data/dummy_data.dart';
 import 'package:shop_flutter/models/product.dart';
 
 class ProductList with ChangeNotifier {
+  final _baseUrl = 'https://shop-flutter-true-default-rtdb.firebaseio.com';
+
   final List<Product> _items = dummyProducts;
 
   List<Product> get items => [..._items];
@@ -34,8 +38,31 @@ class ProductList with ChangeNotifier {
   }
 
   void addProduct(Product product) {
-    _items.add(product);
-    notifyListeners();
+    final future = http.post(
+      Uri.parse('$_baseUrl/products.json'),
+      body: jsonEncode(
+        {
+          "name": product.name,
+          "description": product.description,
+          "price": product.price,
+          "imageUrl": product.imageUrl,
+          "isFavorite": product.isFavorite,
+        },
+      ),
+    );
+    future.then((response) {
+      final id = jsonDecode(response.body)['name'];
+      _items.add(
+        Product(
+          id: id,
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          imageUrl: product.imageUrl,
+        ),
+      );
+      notifyListeners();
+    });
   }
 
   void updateProduct(Product product) {
@@ -46,12 +73,13 @@ class ProductList with ChangeNotifier {
       notifyListeners();
     }
   }
-  
+
   void removeProduct(Product product) {
     //Teste se o produto está na lista
     int index = _items.indexWhere((p) => p.id == product.id);
 
-    if (index >= 0) { //Remova se tiver
+    if (index >= 0) {
+      //Remova se tiver
       _items.removeWhere((p) => p.id == product.id);
       notifyListeners();
     }
