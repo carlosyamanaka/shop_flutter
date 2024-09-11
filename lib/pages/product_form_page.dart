@@ -181,7 +181,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                         FocusScope.of(context).requestFocus(descriptionFocus);
                       },
                       onSaved: (price) =>
-                          formData['price'] = double.parse(price ?? '0'),
+                          formData['price'] = price ?? '0',
                       validator: (price) {
                         final priceString = price ?? '-1';
                         final newPrice = double.tryParse(priceString) ?? -1;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_flutter/models/product.dart';
+import 'package:shop_flutter/utils/casting_functions.dart';
 
 class ProductDetailPage extends StatelessWidget {
   const ProductDetailPage({super.key});
@@ -26,7 +27,7 @@ class ProductDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              'R\$ ${product.price}',
+              'R\$ ${addDecimalInString(product.price)}',
               style: const TextStyle(
                 color: Colors.grey,
                 fontSize: 20,

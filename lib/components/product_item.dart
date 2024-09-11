@@ -11,6 +11,7 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final msg = ScaffoldMessenger.of(context);
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 4),
       leading: CircleAvatar(
@@ -18,7 +19,7 @@ class ProductItem extends StatelessWidget {
       ),
       title: Text(product.name),
       trailing: SizedBox(
-        width: 80,
+        width: 96,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -56,13 +57,21 @@ class ProductItem extends StatelessWidget {
                       ),
                     ],
                   ),
-                ).then((value) {
+                ).then((value) async {
                   if (value) {
-                    Provider.of<ProductList>(
-                      // ignore: use_build_context_synchronously
-                      context,
-                      listen: false,
-                    ).removeProduct(product);
+                    try {
+                      await Provider.of<ProductList>(
+                        // ignore: use_build_context_synchronously
+                        context,
+                        listen: false,
+                      ).removeProduct(product);
+                    } catch (error) {
+                      msg.showSnackBar(
+                        SnackBar(
+                          content: Text(error.toString()),
+                        ),
+                      );
+                    }
                   }
                 });
               },

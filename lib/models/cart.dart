@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:shop_flutter/models/cart_item.dart';
 import 'package:shop_flutter/models/product.dart';
+import 'package:shop_flutter/utils/casting_functions.dart';
 
 class Cart with ChangeNotifier {
   Map<String, CartItem> _items = {};
@@ -17,8 +18,11 @@ class Cart with ChangeNotifier {
 
   double get totalAmount {
     double total = 0.0;
+    
     _items.forEach((key, cartItem) {
-      total += cartItem.price * cartItem.quantity;
+      String cartItemPrice = addDecimalInString(cartItem.price) ?? 0;
+      double cartItemPriceFormated = double.tryParse(cartItemPrice) ?? -1;
+      total += cartItemPriceFormated * cartItem.quantity;
     });
     return total;
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_flutter/models/cart.dart';
 import 'package:shop_flutter/models/cart_item.dart';
+import 'package:shop_flutter/utils/casting_functions.dart';
 
 class CartItemWidget extends StatelessWidget {
   final CartItem cartItem;
@@ -10,6 +11,7 @@ class CartItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double cartItemFormated = double.tryParse(cartItem.price) ?? -1;
     return Dismissible(
       key: ValueKey(cartItem.id),
       direction: DismissDirection.endToStart,
@@ -68,12 +70,13 @@ class CartItemWidget extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(5),
                 child: FittedBox(
-                  child: Text('${cartItem.price}'),
+                  child: Text('${addDecimalInString(cartItem.price)}'),
                 ),
               ),
             ),
             title: Text(cartItem.name),
-            subtitle: Text('Total: R\$ ${cartItem.price * cartItem.quantity}'),
+            subtitle: Text(
+                'Total: R\$ ${(cartItemFormated * cartItem.quantity).toStringAsFixed(2)}'),
             trailing: Text('${cartItem.quantity}x'),
           ),
         ),

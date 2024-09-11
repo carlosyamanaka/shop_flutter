@@ -3,7 +3,7 @@ class CartItem {
   String productId;
   String name;
   int quantity;
-  double price;
+  String price;
 
   CartItem({
     required this.id,
@@ -13,3 +13,4 @@ class CartItem {
     required this.price,
   });
 }
+
