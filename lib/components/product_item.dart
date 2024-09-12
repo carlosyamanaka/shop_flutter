@@ -58,7 +58,7 @@ class ProductItem extends StatelessWidget {
                     ],
                   ),
                 ).then((value) async {
-                  if (value) {
+                  if (value ?? false) {
                     try {
                       await Provider.of<ProductList>(
                         // ignore: use_build_context_synchronously

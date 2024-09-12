@@ -10,6 +10,8 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: [
           AppBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            foregroundColor: Colors.white,
             title: const Text('Bem vindo Usuário!'),
             automaticallyImplyLeading: false,
           ),
@@ -19,7 +21,7 @@ class AppDrawer extends StatelessWidget {
             title: const Text('Loja'),
             onTap: () {
               Navigator.of(context).pushReplacementNamed(
-                AppRoutes.HOME,
+                AppRoutes.AUTH_OR_HOME,
               );
             },
           ),
