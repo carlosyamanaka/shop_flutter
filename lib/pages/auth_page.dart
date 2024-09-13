@@ -30,14 +30,6 @@ class AuthPage extends StatelessWidget {
                   margin: const EdgeInsets.only(
                     bottom: 20,
                   ),
-                  child: const Text(
-                    'Minha loja',
-                    style: TextStyle(
-                      fontSize: 45,
-                      fontFamily: 'Anton',
-                      color: Colors.white,
-                    ),
-                  ),
                 ),
                 const AuthForm(),
               ],

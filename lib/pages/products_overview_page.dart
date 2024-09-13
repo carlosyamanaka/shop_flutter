@@ -53,7 +53,7 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
         foregroundColor: Colors.white,
         centerTitle: true,
         title: const Text(
-          'Minha loja',
+          'Lojinha Flutter',
         ),
         actions: [
           PopupMenuButton(
