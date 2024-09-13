@@ -13,4 +13,3 @@ class CartItem {
     required this.price,
   });
 }
-
