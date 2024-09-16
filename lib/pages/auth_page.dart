@@ -20,19 +20,23 @@ class AuthPage extends StatelessWidget {
               end: Alignment.bottomCenter,
             )),
           ),
-          SizedBox(
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(
-                    bottom: 20,
-                  ),
+          Center(
+            child: SingleChildScrollView(
+              child: SizedBox(
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(
+                        bottom: 20,
+                      ),
+                    ),
+                    const AuthForm(),
+                  ],
                 ),
-                const AuthForm(),
-              ],
+              ),
             ),
           )
         ],

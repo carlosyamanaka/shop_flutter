@@ -11,6 +11,7 @@ import 'package:shop_flutter/pages/product_detail_page.dart';
 import 'package:shop_flutter/pages/product_form_page.dart';
 import 'package:shop_flutter/pages/products_page.dart';
 import 'package:shop_flutter/utils/app_routes.dart';
+import 'package:shop_flutter/utils/custom_route.dart';
 
 void main() {
   runApp(const MyApp());
@@ -55,12 +56,15 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Shop Flutter',
         theme: ThemeData(
-          colorScheme: theme.colorScheme.copyWith(
-            primary: Colors.purple,
-            secondary: Colors.deepOrange,
-          ),
-          fontFamily: 'Lato',
-        ),
+            colorScheme: theme.colorScheme.copyWith(
+              primary: Colors.purple,
+              secondary: Colors.deepOrange,
+            ),
+            fontFamily: 'Lato',
+            pageTransitionsTheme: PageTransitionsTheme(builders: {
+              TargetPlatform.iOS: CustomPageTransitionsBuilder(),
+              TargetPlatform.android: CustomPageTransitionsBuilder(),
+            })),
         routes: {
           AppRoutes.AUTH_OR_HOME: (ctx) => const AuthOrHomePage(),
           AppRoutes.PRODUCT_DETAIL: (ctx) => const ProductDetailPage(),
